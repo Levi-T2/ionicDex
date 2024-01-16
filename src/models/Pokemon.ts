@@ -1,7 +1,7 @@
-type AbilityArray = {
-  is_hidden: boolean;
-  slot: number;
-  ability: {
+import { AbilityArrayType } from "@/types/AbilityArrayType";
+
+type MovesArray = {
+  move: {
     name: string;
     url: string;
   };
@@ -20,7 +20,8 @@ export class Pokemon {
     front_default: string;
     front_shiny: string;
   };
-  abilities: Array<AbilityArray>;
+  abilities: Array<AbilityArrayType>;
+  moves: Array<MovesArray>;
   forms: Array<object>;
 
   constructor(
@@ -36,7 +37,8 @@ export class Pokemon {
       front_default: string;
       front_shiny: string;
     },
-    abilities: Array<object>,
+    abilities: Array<AbilityArrayType>,
+    moves: Array<MovesArray>,
     forms: Array<object>
   ) {
     this.id = id;
@@ -46,8 +48,8 @@ export class Pokemon {
     this.weight = weight;
     this.base_experience = base_experience;
     this.sprites = sprites;
-    // @ts-expect-error This gets mad o
     this.abilities = abilities;
+    this.moves = moves;
     this.forms = forms;
   }
 }

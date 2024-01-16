@@ -7,3 +7,9 @@
 <script setup lang="ts">
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
 </script>
+
+<style lang="scss">
+.m-0 {
+  margin: 0%;
+}
+</style>
