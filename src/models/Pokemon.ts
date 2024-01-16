@@ -1,3 +1,12 @@
+type AbilityArray = {
+  is_hidden: boolean;
+  slot: number;
+  ability: {
+    name: string;
+    url: string;
+  };
+};
+
 export class Pokemon {
   id: number;
   name: string;
@@ -11,7 +20,7 @@ export class Pokemon {
     front_default: string;
     front_shiny: string;
   };
-  abilities: Array<object>;
+  abilities: Array<AbilityArray>;
   forms: Array<object>;
 
   constructor(
@@ -37,6 +46,7 @@ export class Pokemon {
     this.weight = weight;
     this.base_experience = base_experience;
     this.sprites = sprites;
+    // @ts-expect-error This gets mad o
     this.abilities = abilities;
     this.forms = forms;
   }

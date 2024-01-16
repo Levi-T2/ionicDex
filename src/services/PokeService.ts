@@ -3,9 +3,9 @@ import { api } from "./AxiosService";
 import AppState from "@/Appstate";
 
 class PokeService {
-  async getAllPokemon() {
+  async getAllPokemon(offset: number) {
     const { data } = await api.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=3`
+      `https://pokeapi.co/api/v2/pokemon/?limit=3&offset=${offset}`
     );
     // Instead of res, using { data } here tells our const that it will grab the data object from the response.
     // This is needed as without it, TypeScript will get very upset.
