@@ -33,6 +33,8 @@ class PokeService {
     console.log(AppState.listOfPokemon);
   }
   async getAbilityInfo(abilityUrlOne: string, abilityUrlTwo?: string) {
+    AppState.activeAbilityOne = <AbilityDetailsType>{};
+    AppState.activeAbilityTwo = <AbilityDetailsType>{};
     // TODO Change this if into a switch/short-circuit.
     const { data } = await api.get(abilityUrlOne);
     const abilityOne = new AbilityDetails(
@@ -42,7 +44,6 @@ class PokeService {
       data.generation,
       data.pokemon
     );
-    AppState.activeAbilityOne = <AbilityDetailsType>{};
     AppState.activeAbilityOne = abilityOne;
     console.log(`[From PokeService]`, AppState.activeAbilityOne);
     if (abilityUrlTwo != undefined) {
@@ -54,7 +55,6 @@ class PokeService {
         data.generation,
         data.pokemon
       );
-      AppState.activeAbilityTwo = <AbilityDetailsType>{};
       AppState.activeAbilityTwo = abilityTwo;
       console.log(`[From PokeService]`, AppState.activeAbilityTwo);
     }

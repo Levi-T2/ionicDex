@@ -20,12 +20,12 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/DexPage.vue"),
       },
       {
-        path: "tab2",
-        component: () => import("@/views/Tab2Page.vue"),
+        path: "search",
+        component: () => import("@/views/SearchPage.vue"),
       },
       {
-        path: "tab3",
-        component: () => import("@/views/Tab3Page.vue"),
+        path: "about",
+        component: () => import("@/views/AboutPage.vue"),
       },
     ],
   },
