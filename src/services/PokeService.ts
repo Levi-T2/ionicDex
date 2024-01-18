@@ -33,22 +33,23 @@ class PokeService {
       );
     }
   }
-  async getAbilityInfo(abilityUrlOne: string, abilityUrlTwo?: string) {
-    AppState.activeAbilityOne = <AbilityDetailsType>{};
-    AppState.activeAbilityTwo = <AbilityDetailsType>{};
+  async getAbilityInfo(abilityUrl: string) {
     // TODO Change this if into a switch/short-circuit.
-    const { data } = await api.get(abilityUrlOne);
-    const abilityOne = new AbilityDetails(
-      data.id,
-      data.name,
-      data.effect_entries,
-      data.generation,
-      data.pokemon
-    );
-    AppState.activeAbilityOne = abilityOne;
-    console.log(`[From PokeService]`, AppState.activeAbilityOne);
-    if (abilityUrlTwo != undefined) {
-      const { data } = await api.get(abilityUrlTwo);
+    if (Object.keys(AppState.activeAbilityOne).length == 0) {
+      AppState.activeAbilityOne = <AbilityDetailsType>{};
+      const { data } = await api.get(abilityUrl);
+      const abilityOne = new AbilityDetails(
+        data.id,
+        data.name,
+        data.effect_entries,
+        data.generation,
+        data.pokemon
+      );
+      AppState.activeAbilityOne = abilityOne;
+      console.log(`[From PokeService]`, AppState.activeAbilityOne);
+    } else {
+      AppState.activeAbilityTwo = <AbilityDetailsType>{};
+      const { data } = await api.get(abilityUrl);
       const abilityTwo = new AbilityDetails(
         data.id,
         data.name,

@@ -12,4 +12,16 @@ import { IonApp, IonRouterOutlet } from '@ionic/vue';
 .m-0 {
   margin: 0%;
 }
+
+.mb-0 {
+  margin-bottom: 0%;
+}
+
+.p-1 {
+  padding: .275rem;
+}
+
+.p-2 {
+  padding: .425rem;
+}
 </style>
