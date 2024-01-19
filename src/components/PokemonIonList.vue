@@ -39,6 +39,3 @@ async function grabModal(pokemonPassed: Pokemon) {
     modal.present();
 }
 </script>
-
-
-<style lang="scss" scoped></style>

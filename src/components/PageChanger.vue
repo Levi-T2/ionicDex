@@ -48,6 +48,3 @@ async function nextPage() {
     }
 }
 </script>
-
-
-<style lang="scss" scoped></style>
