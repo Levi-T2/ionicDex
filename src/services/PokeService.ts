@@ -91,7 +91,7 @@ class PokeService {
         data.name,
         data.damage_relations
       );
-      console.log(`[From PokeService]`, AppState.activeTypeOne);
+      // console.log(`[From PokeService]`, AppState.activeTypeOne);
     } else {
       const { data } = await api.get(typeUrl);
       AppState.activeTypeTwo = <TypeInfoType>{};
@@ -100,7 +100,7 @@ class PokeService {
         data.name,
         data.damage_relations
       );
-      console.log(`[From PokeService]`, AppState.activeTypeTwo);
+      // console.log(`[From PokeService]`, AppState.activeTypeTwo);
     }
   }
 }

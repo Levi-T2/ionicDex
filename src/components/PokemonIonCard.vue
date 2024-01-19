@@ -50,8 +50,4 @@ defineProps({
 .center {
     text-align: center;
 }
-
-p {
-    color: whitesmoke;
-}
 </style>

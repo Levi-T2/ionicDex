@@ -215,8 +215,9 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-step-400: #717171;
     --ion-color-step-450: #7d7d7d;
     --ion-color-step-500: #898989;
-    --ion-color-step-550: #949494;
-    --ion-color-step-600: #a0a0a0;
+    /* NOTE Changed 550 and 600 for better readability on dark mode. */
+    --ion-color-step-550: #e0e0e0;
+    --ion-color-step-600: #e0e0e0;
     --ion-color-step-650: #acacac;
     --ion-color-step-700: #b8b8b8;
     --ion-color-step-750: #c4c4c4;

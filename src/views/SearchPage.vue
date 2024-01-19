@@ -37,4 +37,3 @@ async function searchPokemon() {
 
 const pokemon = computed(() => AppState.searchedPokemon)
 </script>
-  

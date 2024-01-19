@@ -234,10 +234,3 @@ async function getTypeInfo(typeUrl: string) {
 const typeOne = computed(() => AppState.activeTypeOne);
 const typeTwo = computed(() => AppState.activeTypeTwo);
 </script>
-
-
-<style lang="scss" scoped>
-p {
-    color: whitesmoke;
-}
-</style>

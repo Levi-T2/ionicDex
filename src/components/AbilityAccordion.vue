@@ -83,8 +83,4 @@ const abilityTwo = computed(() => AppState.activeAbilityTwo);
 .center {
     text-align: center;
 }
-
-p {
-    color: whitesmoke;
-}
 </style>
