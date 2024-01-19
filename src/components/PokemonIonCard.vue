@@ -24,14 +24,6 @@
                     <p>Weight: {{ pokemon.weight }}</p>
                 </IonLabel>
             </IonItem>
-            <!-- <IonItem>
-                <IonLabel>
-                    <h1 class="center">Typing</h1>
-                    <p class="ion-text-capitalize">
-                        {{ pokemon.types[0].type.name }}</p>
-                    <p class="ion-text-capitalize" v-if="pokemon.types[1] != undefined">{{ pokemon.types[1].type.name }}</p>
-                </IonLabel>
-            </IonItem> -->
             <IonAccordionGroup>
                 <IonItem>
                     <IonLabel>
@@ -42,13 +34,29 @@
                     <IonItem v-if="pokemon.types[0]" @click="getTypeInfo(pokemon.types[0].type.url)" slot="header">
                         <IonLabel class="ion-text-capitalize">{{ pokemon.types[0].type.name }}</IonLabel>
                     </IonItem>
-                    <div v-if="typeOne.damage_relations" class="ion-padding" slot="content">
-                        <h2>Takes 2x damage from</h2>
-                        <div v-if="Object.keys(typeOne.damage_relations.double_damage_from).length != 0">
-                            <p class="ion-text-capitalize" v-for="type in typeOne.damage_relations.double_damage_from"
-                                :key="type.url">
-                                {{ type.name }}
-                            </p>
+                    <div v-if="typeOne" class="ion-padding" slot="content">
+                        <div v-if="typeOne.damage_relations">
+                            <h2>Takes double damage from</h2>
+                            <div v-if="Object.keys(typeOne.damage_relations.double_damage_from).length != 0">
+                                <p class="ion-text-capitalize" v-for="type in typeOne.damage_relations.double_damage_from"
+                                    :key="type.url">
+                                    {{ type.name }}
+                                </p>
+                            </div>
+                            <h2>Deals double damage to</h2>
+                            <div v-if="Object.keys(typeOne.damage_relations.double_damage_to).length != 0">
+                                <p class="ion-text-capitalize" v-for="type in typeOne.damage_relations.double_damage_to"
+                                    :key="type.url">
+                                    {{ type.name }}
+                                </p>
+                            </div>
+                            <h2>Takes half damage from</h2>
+                            <div v-if="Object.keys(typeOne.damage_relations.half_damage_from).length != 0">
+                                <p class="ion-text-capitalize" v-for="type in typeOne.damage_relations.half_damage_from"
+                                    :key="type.url">
+                                    {{ type.name }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <div v-else class="ion-padding" slot="content">
@@ -78,13 +86,22 @@
                         slot="header">
                         <IonLabel class="ion-text-capitalize">{{ pokemon.abilities[0].ability.name }}</IonLabel>
                     </IonItem>
-                    <div v-if="abilityOne.effect_entries != undefined" class="ion-padding" slot="content">
-                        <p v-if="abilityOne.effect_entries[0].language.name == 'en'">{{
-                            abilityOne.effect_entries[0].effect }}</p>
-                        <p v-else>{{ abilityOne.effect_entries[1].effect }}</p>
+                    <div v-if="abilityTwo.effect_entries != undefined" class="ion-padding" slot="content">
+                        <div v-if="abilityTwo.effect_entries != undefined">
+                            <p v-if="abilityTwo.effect_entries[0].language.name == 'en'">
+                                {{ abilityTwo.effect_entries[0].effect }}</p>
+                            <p v-else>{{ abilityTwo.effect_entries[1].effect }}</p>
+                        </div>
                     </div>
                     <div v-else class="ion-padding" slot="content">
-                        <p>Loading...</p>
+                        <div v-if="abilityOne.effect_entries != undefined">
+                            <p v-if="abilityOne.effect_entries[0].language.name == 'en'">{{
+                                abilityOne.effect_entries[0].effect }}</p>
+                            <p v-else>{{ abilityOne.effect_entries[1].effect }}</p>
+                        </div>
+                        <div v-else>
+                            <p>Loading...</p>
+                        </div>
                     </div>
                 </IonAccordion>
                 <IonAccordion value="secondAbility">
@@ -94,12 +111,21 @@
                         </IonLabel>
                     </IonItem>
                     <div v-if="abilityTwo.effect_entries != undefined" class="ion-padding" slot="content">
-                        <p v-if="abilityTwo.effect_entries[0].language.name == 'en'">
-                            {{ abilityTwo.effect_entries[0].effect }}</p>
-                        <p v-else>{{ abilityTwo.effect_entries[1].effect }}</p>
+                        <div v-if="abilityTwo.effect_entries != undefined">
+                            <p v-if="abilityTwo.effect_entries[0].language.name == 'en'">
+                                {{ abilityTwo.effect_entries[0].effect }}</p>
+                            <p v-else>{{ abilityTwo.effect_entries[1].effect }}</p>
+                        </div>
                     </div>
                     <div v-else class="ion-padding" slot="content">
-                        <p>Loading...</p>
+                        <div v-if="abilityOne.effect_entries != undefined">
+                            <p v-if="abilityOne.effect_entries[0].language.name == 'en'">{{
+                                abilityOne.effect_entries[0].effect }}</p>
+                            <p v-else>{{ abilityOne.effect_entries[1].effect }}</p>
+                        </div>
+                        <div v-else>
+                            <p>Loading...</p>
+                        </div>
                     </div>
                 </IonAccordion>
             </IonAccordionGroup>
@@ -107,6 +133,9 @@
     </IonCard>
 </template>
 
+// TODO If the user selects the second ability before the second, the first will not function properly.
+// This happens on both types and abilities, so both need to be fixed.
+// NOTE I have fixed on ability's... so just now needs fixed on type
 
 <script setup lang="ts">
 import AppState from '@/Appstate';
@@ -128,6 +157,9 @@ async function getAbilityInfo(abilityUrl: string) {
     }
 }
 
+const abilityOne = computed(() => AppState.activeAbilityOne);
+const abilityTwo = computed(() => AppState.activeAbilityTwo);
+
 async function getTypeInfo(typeUrl: string) {
     try {
         await pokeService.getTypeInfo(typeUrl);
@@ -136,8 +168,8 @@ async function getTypeInfo(typeUrl: string) {
     }
 }
 
-const abilityOne = computed(() => AppState.activeAbilityOne);
-const abilityTwo = computed(() => AppState.activeAbilityTwo);
+
+
 
 const typeOne = computed(() => AppState.activeTypeOne);
 const typeTwo = computed(() => AppState.activeTypeTwo);
