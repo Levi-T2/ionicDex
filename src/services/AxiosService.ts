@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios, { AxiosError } from "axios";
 
 export const api = Axios.create({
   timeout: 8000,
@@ -7,7 +7,7 @@ export const api = Axios.create({
 api.interceptors.request.use((config) => config, handleAxiosError);
 api.interceptors.response.use((response) => response, handleAxiosError);
 
-function handleAxiosError(error: any) {
+function handleAxiosError(error: AxiosError) {
   if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx

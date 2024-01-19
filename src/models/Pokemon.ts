@@ -1,11 +1,5 @@
 import { AbilityArrayType } from "@/types/AbilityArrayType";
-
-type MovesArray = {
-  move: {
-    name: string;
-    url: string;
-  };
-};
+import { TypesArrayType } from "@/types/TypesArrayType";
 
 export class Pokemon {
   id: number;
@@ -21,8 +15,8 @@ export class Pokemon {
     front_shiny: string;
   };
   abilities: Array<AbilityArrayType>;
-  moves: Array<MovesArray>;
   forms: Array<object>;
+  types: Array<TypesArrayType>;
 
   constructor(
     id: number,
@@ -38,8 +32,8 @@ export class Pokemon {
       front_shiny: string;
     },
     abilities: Array<AbilityArrayType>,
-    moves: Array<MovesArray>,
-    forms: Array<object>
+    forms: Array<object>,
+    types: Array<TypesArrayType>
   ) {
     this.id = id;
     this.name = name;
@@ -49,7 +43,7 @@ export class Pokemon {
     this.base_experience = base_experience;
     this.sprites = sprites;
     this.abilities = abilities;
-    this.moves = moves;
     this.forms = forms;
+    this.types = types;
   }
 }

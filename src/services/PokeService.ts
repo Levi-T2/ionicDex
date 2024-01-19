@@ -10,13 +10,14 @@ class PokeService {
     // Instead of res, using { data } here tells our const that it will grab the data object from the response.
     // This is needed as without it, TypeScript will get very upset.
     const { data } = await api.get(
-      `https://pokeapi.co/api/v2/pokemon/?limit=9&offset=${offset}`
+      `https://pokeapi.co/api/v2/pokemon/?limit=18&offset=${offset}`
     );
     for (let pokemon of data.results) {
       pokemon = new PokemonResults(pokemon.name, pokemon.url);
       /* Due to the way the pokeAPI works, grabbing using this request url will only get us a pokemon's name and url.
        * In order to manage this limitation I added a for loop that will grab the url off of each pokemon and use api.get on it. */
       const { data } = await api.get(pokemon.url);
+      // console.log(`[From PokeService]`, data);
       AppState.listOfPokemon.push(
         new Pokemon(
           data.id,
@@ -27,11 +28,12 @@ class PokeService {
           data.base_experience,
           data.sprites,
           data.abilities,
-          data.moves,
-          data.forms
+          data.forms,
+          data.types
         )
       );
     }
+    // console.log(`[From PokeService]`, AppState.listOfPokemon);
   }
   async getAbilityInfo(abilityUrl: string) {
     // TODO Change this if into a switch/short-circuit.
@@ -46,7 +48,7 @@ class PokeService {
         data.pokemon
       );
       AppState.activeAbilityOne = abilityOne;
-      console.log(`[From PokeService]`, AppState.activeAbilityOne);
+      // console.log(`[From PokeService]`, AppState.activeAbilityOne);
     } else {
       AppState.activeAbilityTwo = <AbilityDetailsType>{};
       const { data } = await api.get(abilityUrl);
@@ -58,8 +60,26 @@ class PokeService {
         data.pokemon
       );
       AppState.activeAbilityTwo = abilityTwo;
-      console.log(`[From PokeService]`, AppState.activeAbilityTwo);
+      // console.log(`[From PokeService]`, AppState.activeAbilityTwo);
     }
+  }
+  async searchPokemon(pokemonName: string) {
+    const { data } = await api.get(
+      `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
+    );
+    AppState.searchedPokemon = new Pokemon(
+      data.id,
+      data.name,
+      data.order,
+      data.height,
+      data.weight,
+      data.base_experience,
+      data.sprites,
+      data.abilities,
+      data.forms,
+      data.types
+    );
+    // console.log(`[From PokeService]`, AppState.searchedPokemon);
   }
 }
 

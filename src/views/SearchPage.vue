@@ -1,21 +1,38 @@
 <template>
-    <ion-page>
-        <ion-header>
-            <ion-toolbar>
-                <ion-title>Tab 3</ion-title>
-            </ion-toolbar>
-        </ion-header>
-        <ion-content :fullscreen="true">
-            <ion-header collapse="condense">
-                <ion-toolbar>
-                    <ion-title size="large">Tab 3</ion-title>
-                </ion-toolbar>
-            </ion-header>
-        </ion-content>
-    </ion-page>
+    <IonPage>
+        <IonHeader>
+            <IonToolbar>
+                <IonSearchbar @ion-change="searchPokemon()" v-model="pokemonName" placeholder="Search by name...">
+                </IonSearchbar>
+            </IonToolbar>
+        </IonHeader>
+        <IonContent v-if="Object.keys(pokemon).length != 0" class="ion-padding">
+            <PokemonIonCard :pokemon="pokemon" />
+        </IonContent>
+    </IonPage>
 </template>
   
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonContent, IonSearchbar } from '@ionic/vue';
+import AppState from '@/Appstate';
+import { ref, computed } from 'vue';
+import { pokeService } from '@/services/PokeService';
+import PokemonIonCard from '@/components/PokemonIonCard.vue';
+
+const pokemonName = ref("")
+
+async function searchPokemon() {
+    try {
+        let name = pokemonName.value;
+        // NOTE The pokemon API will not work if a name is passed 
+        // with an uppercase character, so this insures that whatever gets entered into the input will be changed to all lowercase.
+        name = name.toLowerCase();
+        await pokeService.searchPokemon(name);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const pokemon = computed(() => AppState.searchedPokemon)
 </script>
   

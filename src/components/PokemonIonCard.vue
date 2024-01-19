@@ -24,6 +24,13 @@
                     <p>Weight: {{ pokemon.weight }}</p>
                 </IonLabel>
             </IonItem>
+            <IonItem>
+                <IonLabel>
+                    <h1 class="center">Typing</h1>
+                    <p class="ion-text-capitalize">{{ pokemon.types[0].type.name }}</p>
+                    <p class="ion-text-capitalize" v-if="pokemon.types[1] != undefined">{{ pokemon.types[1].type.name }}</p>
+                </IonLabel>
+            </IonItem>
             <IonAccordionGroup>
                 <IonItem>
                     <IonLabel>

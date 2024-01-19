@@ -9,5 +9,7 @@ const AppState = reactive({
   activeAbilityOne: <AbilityDetailsType>{},
 
   activeAbilityTwo: <AbilityDetailsType>{},
+
+  searchedPokemon: <Pokemon>{},
 });
 export default AppState;

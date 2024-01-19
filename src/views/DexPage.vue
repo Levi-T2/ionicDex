@@ -17,6 +17,7 @@ import { IonContent, IonHeader, IonPage, IonToolbar } from '@ionic/vue';
 import { pokeService } from '../services/PokeService'
 import PokemonIonList from '@/components/PokemonIonList.vue';
 import PageChanger from '@/components/PageChanger.vue';
+import { onMounted } from 'vue';
 
 async function getAllPokemon() {
     try {
@@ -26,7 +27,11 @@ async function getAllPokemon() {
     }
 }
 
-getAllPokemon()
+onMounted(() => {
+    getAllPokemon();
+})
+
+
 </script>
 
 
