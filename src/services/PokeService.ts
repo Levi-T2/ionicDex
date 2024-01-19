@@ -4,6 +4,8 @@ import AppState from "@/Appstate";
 import { AbilityDetails } from "@/models/AbilityDetails";
 import { AbilityDetailsType } from "@/types/AbilityDetailsType";
 import { PokemonResults } from "@/models/PokemonResults";
+import { TypeInfoType } from "@/types/TypeInfoType";
+import { TypeResults } from "@/models/TypeResults";
 
 class PokeService {
   async getAllPokemon(offset: number) {
@@ -36,7 +38,6 @@ class PokeService {
     // console.log(`[From PokeService]`, AppState.listOfPokemon);
   }
   async getAbilityInfo(abilityUrl: string) {
-    // TODO Change this if into a switch/short-circuit.
     if (Object.keys(AppState.activeAbilityOne).length == 0) {
       AppState.activeAbilityOne = <AbilityDetailsType>{};
       const { data } = await api.get(abilityUrl);
@@ -80,6 +81,27 @@ class PokeService {
       data.types
     );
     // console.log(`[From PokeService]`, AppState.searchedPokemon);
+  }
+  async getTypeInfo(typeUrl: string) {
+    if (Object.keys(AppState.activeTypeOne).length == 0) {
+      const { data } = await api.get(typeUrl);
+      AppState.activeTypeOne = <TypeInfoType>{};
+      AppState.activeTypeOne = new TypeResults(
+        data.id,
+        data.name,
+        data.damage_relations
+      );
+      console.log(`[From PokeService]`, AppState.activeTypeOne);
+    } else {
+      const { data } = await api.get(typeUrl);
+      AppState.activeTypeTwo = <TypeInfoType>{};
+      AppState.activeTypeTwo = new TypeResults(
+        data.id,
+        data.name,
+        data.damage_relations
+      );
+      console.log(`[From PokeService]`, AppState.activeTypeTwo);
+    }
   }
 }
 

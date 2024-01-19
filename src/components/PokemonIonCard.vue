@@ -24,24 +24,59 @@
                     <p>Weight: {{ pokemon.weight }}</p>
                 </IonLabel>
             </IonItem>
-            <IonItem>
+            <!-- <IonItem>
                 <IonLabel>
                     <h1 class="center">Typing</h1>
-                    <p class="ion-text-capitalize">{{ pokemon.types[0].type.name }}</p>
+                    <p class="ion-text-capitalize">
+                        {{ pokemon.types[0].type.name }}</p>
                     <p class="ion-text-capitalize" v-if="pokemon.types[1] != undefined">{{ pokemon.types[1].type.name }}</p>
                 </IonLabel>
-            </IonItem>
+            </IonItem> -->
+            <IonAccordionGroup>
+                <IonItem>
+                    <IonLabel>
+                        <h1 class="center">Typing</h1>
+                    </IonLabel>
+                </IonItem>
+                <IonAccordion value="firstType">
+                    <IonItem v-if="pokemon.types[0]" @click="getTypeInfo(pokemon.types[0].type.url)" slot="header">
+                        <IonLabel class="ion-text-capitalize">{{ pokemon.types[0].type.name }}</IonLabel>
+                    </IonItem>
+                    <div v-if="typeOne.damage_relations" class="ion-padding" slot="content">
+                        <h2>Takes 2x damage from</h2>
+                        <div v-if="Object.keys(typeOne.damage_relations.double_damage_from).length != 0">
+                            <p class="ion-text-capitalize" v-for="type in typeOne.damage_relations.double_damage_from"
+                                :key="type.url">
+                                {{ type.name }}
+                            </p>
+                        </div>
+                    </div>
+                    <div v-else class="ion-padding" slot="content">
+                        <p>Loading...</p>
+                    </div>
+                </IonAccordion>
+                <IonAccordion value="secondType">
+                    <IonItem v-if="pokemon.types[1]" @click="getTypeInfo(pokemon.types[1].type.url)" slot="header">
+                        <IonLabel class="ion-text-capitalize">{{ pokemon.types[1].type.name }}</IonLabel>
+                    </IonItem>
+                    <div v-if="typeTwo" class="ion-padding" slot="content">
+                        <p>{{ typeTwo.damage_relations }}</p>
+                    </div>
+                    <div v-else class="ion-padding" slot="content">
+                        <p>Loading...</p>
+                    </div>
+                </IonAccordion>
+            </IonAccordionGroup>
             <IonAccordionGroup>
                 <IonItem>
                     <IonLabel>
                         <h1 class="center">Abilities</h1>
                     </IonLabel>
                 </IonItem>
-                <IonAccordion value="first">
+                <IonAccordion value="firstAbility">
                     <IonItem v-if="pokemon.abilities[0]" @click="getAbilityInfo(pokemon.abilities[0].ability.url)"
                         slot="header">
-                        <IonLabel class="ion-text-capitalize">{{ pokemon.abilities[0].ability.name }}
-                        </IonLabel>
+                        <IonLabel class="ion-text-capitalize">{{ pokemon.abilities[0].ability.name }}</IonLabel>
                     </IonItem>
                     <div v-if="abilityOne.effect_entries != undefined" class="ion-padding" slot="content">
                         <p v-if="abilityOne.effect_entries[0].language.name == 'en'">{{
@@ -52,7 +87,7 @@
                         <p>Loading...</p>
                     </div>
                 </IonAccordion>
-                <IonAccordion value="second">
+                <IonAccordion value="secondAbility">
                     <IonItem v-if="pokemon.abilities[1]" @click="getAbilityInfo(pokemon.abilities[1].ability.url)"
                         slot="header">
                         <IonLabel class="ion-text-capitalize">{{ pokemon.abilities[1].ability.name }}
@@ -93,8 +128,19 @@ async function getAbilityInfo(abilityUrl: string) {
     }
 }
 
+async function getTypeInfo(typeUrl: string) {
+    try {
+        await pokeService.getTypeInfo(typeUrl);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const abilityOne = computed(() => AppState.activeAbilityOne);
 const abilityTwo = computed(() => AppState.activeAbilityTwo);
+
+const typeOne = computed(() => AppState.activeTypeOne);
+const typeTwo = computed(() => AppState.activeTypeTwo);
 </script>
 
 

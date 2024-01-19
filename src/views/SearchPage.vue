@@ -2,8 +2,10 @@
     <IonPage>
         <IonHeader>
             <IonToolbar>
-                <IonSearchbar @ion-change="searchPokemon()" v-model="pokemonName" placeholder="Search by name...">
-                </IonSearchbar>
+                <IonTitle>Search Pokemon</IonTitle>
+            </IonToolbar>
+            <IonToolbar>
+                <IonSearchbar @ion-change="searchPokemon()" v-model="pokemonName"></IonSearchbar>
             </IonToolbar>
         </IonHeader>
         <IonContent v-if="Object.keys(pokemon).length != 0" class="ion-padding">
@@ -13,7 +15,7 @@
 </template>
   
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonContent, IonSearchbar } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonContent, IonSearchbar, IonTitle } from '@ionic/vue';
 import AppState from '@/Appstate';
 import { ref, computed } from 'vue';
 import { pokeService } from '@/services/PokeService';
